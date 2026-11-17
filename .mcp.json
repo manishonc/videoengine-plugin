@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "videoengine": {
+      "type": "http",
+      "url": "https://video-mcp.ariva.cloud/api/mcp/videoengine/mcp",
+      "headers": {
+        "X-Source-Name": "videoengine-plugin"
+      }
+    }
+  }
+}

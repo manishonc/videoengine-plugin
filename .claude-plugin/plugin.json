@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "videoengine",
+  "displayName": "AI Video Engine",
+  "version": "0.1.0",
+  "description": "Make finished, on-brand videos from a brief. Claude writes each video as a HyperFrames composition in your AI Video Engine studio, following the studio's design system, and gives you a link to watch it.",
+  "author": {
+    "name": "AI Video Engine",
+    "url": "https://video.ariva.cloud"
+  },
+  "homepage": "https://video.ariva.cloud",
+  "repository": "https://github.com/manishonc/videoengine-plugin",
+  "keywords": [
+    "video",
+    "hyperframes",
+    "brand",
+    "design-system",
+    "studio",
+    "mcp"
+  ],
+  "documentationUrl": "https://github.com/manishonc/videoengine-plugin#readme",
+  "supportUrl": "https://github.com/manishonc/videoengine-plugin/issues",
+  "privacyPolicyUrl": "https://video.ariva.cloud/privacy",
+  "termsOfServiceUrl": "https://video.ariva.cloud/terms",
+  "dependencies": [
+    {
+      "name": "hyperframes",
+      "marketplace": "claude-plugins-official"
+    }
+  ]
+}
