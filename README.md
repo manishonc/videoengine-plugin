@@ -21,6 +21,8 @@ and gives you a link to watch it, render the MP4 and keep editing.
 
 You need an AI Video Engine account. Sign up at https://video.ariva.cloud.
 
+Full guide, with troubleshooting: https://video.ariva.cloud/claude
+
 ## Install
 
 ### Claude Code
