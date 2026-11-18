@@ -1,6 +1,6 @@
 {
   "name": "videoengine-plugin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "AI Video Engine's render engine: renders your videos on this computer. `connect`, then `start`.",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
