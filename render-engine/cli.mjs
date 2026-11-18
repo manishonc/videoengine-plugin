@@ -2,7 +2,7 @@
 // packages/render-engine/package.json
 var package_default = {
   name: "@videoengine/render-engine",
-  version: "0.1.0",
+  version: "0.2.0",
   private: true,
   type: "module",
   exports: {
@@ -450,8 +450,10 @@ async function runJob(job, options) {
     controller.signal.throwIfAborted();
     await api.upload(job, output, durationMs);
     log(job, `done in ${Math.round((Date.now() - started) / 1000)} s`);
+    return true;
   } catch (error) {
     await settle(api, job, controller.signal.aborted ? controller.signal.reason : error);
+    return false;
   } finally {
     clearInterval(reporter);
     shutdown.removeEventListener("abort", stopOnShutdown);
@@ -514,6 +516,42 @@ async function start(log = console.log) {
   }
   log("Stopped.");
 }
+var ONCE_WAIT_SECONDS = 60;
+async function runOnce(log = console.log) {
+  const credentials = await readCredentials();
+  if (!credentials)
+    throw new Error("This computer is not connected. Run connect first.");
+  await prepareBinaries(log);
+  const api = jobsApi(credentials);
+  const shutdown = new AbortController;
+  for (const name of ["SIGINT", "SIGTERM"])
+    process.once(name, () => shutdown.abort());
+  const until = Date.now() + ONCE_WAIT_SECONDS * 1000;
+  while (!shutdown.signal.aborted) {
+    let job;
+    try {
+      job = await api.claim(credentials.name);
+    } catch (error) {
+      if (error instanceof TokenRefused) {
+        throw new Error("This computer was disconnected. Run connect to connect it again.");
+      }
+      throw error;
+    }
+    if (job) {
+      return runJob(job, {
+        api,
+        shutdown: shutdown.signal,
+        reportSeconds: REPORT_SECONDS,
+        maxMs: MAX_RENDER_MINUTES * 60000
+      });
+    }
+    if (Date.now() > until) {
+      throw new Error(`No render waited for this computer for ${ONCE_WAIT_SECONDS} s. Start one with My computer, then run this again.`);
+    }
+    await sleep2(IDLE_SECONDS * 1000, undefined, { signal: shutdown.signal }).catch(() => {});
+  }
+  return false;
+}
 
 // packages/render-engine/src/cli.ts
 var command = process.argv[2];
@@ -524,12 +562,17 @@ try {
     console.log(`Connected ${credentials.name}${where}. Saved in ${CREDENTIALS_PATH}.`);
   } else if (command === "start") {
     await start();
+  } else if (command === "run-once") {
+    if (await runOnce())
+      console.log("Rendered. The MP4 is on the video's page.");
+    else
+      process.exitCode = 1;
   } else if (command === "--version" || command === "version") {
     console.log(package_default.version);
   } else if (command === "sign-out") {
     console.log(await signOut() ? "Signed out." : "This computer was not connected.");
   } else {
-    console.log("Usage: render-engine connect | start | sign-out | --version");
+    console.log("Usage: render-engine connect | start | run-once | sign-out | --version");
     process.exitCode = command ? 1 : 0;
   }
 } catch (error) {

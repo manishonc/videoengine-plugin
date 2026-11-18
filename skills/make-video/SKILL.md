@@ -1,6 +1,6 @@
 ---
 name: make-video
-description: Make or change a video in AI Video Engine from a brief, in the person's studio and on their brand, and end with a link to watch it. Use when someone asks to make, create or edit a video, reel, short, promo, explainer or ad with AI Video Engine, or to change a scene, the intro, the copy or the timing of a video already there.
+description: Make or change a video in AI Video Engine from a brief, in the person's studio and on their brand, and end with a link to watch it. Use when someone asks to make, create or edit a video, reel, short, promo, explainer or ad with AI Video Engine, to change a scene, the intro, the copy or the timing of a video already there, or to render one to an MP4 (on their own computer or our servers).
 ---
 
 # Make a video with AI Video Engine
@@ -74,9 +74,36 @@ Details and a minimal skeleton: `references/composition.md`.
 - `save_version` once every `write_file` has returned, never in the same step as a write. For an
   edit, save only when the person asks or the change is finished.
 - `get_video_preview` with the video id, and end your reply with that link. It opens the video's
-  page, where the person watches it in the player, picks a version, renders an MP4 and keeps
-  editing. It opens for anyone signed in to the studio's organization.
+  page, where the person watches it in the player, picks a version, renders an MP4 (or ask you:
+  step 6) and keeps editing. It opens for anyone signed in to the studio's organization.
 - Reply in one or two sentences: what you made or changed, then the link.
+
+## 6. Render an MP4 (only when asked)
+
+Render only when the person asks for an MP4, a file or a render. It needs a saved version: use
+the id `save_version` returned, or save one first.
+
+**On their own computer** (when you can run terminal commands, as in Claude Code):
+
+1. `render_version` with the version id and `where: "my-computer"`.
+2. Run, and wait for it to finish:
+   `PUPPETEER_SKIP_DOWNLOAD=1 npx --yes github:manishonc/videoengine-plugin run-once`
+   (on Windows, without `PUPPETEER_SKIP_DOWNLOAD=1 `). It renders that version on this computer
+   with the same engine as our servers, uploads the MP4 and exits. The first run downloads Chrome
+   and FFmpeg (about 250 MB) and can take a few minutes; later runs take about as long as the
+   video.
+3. If it says this computer is not connected, run
+   `npx --yes github:manishonc/videoengine-plugin connect` in the background, tell the person the
+   code it prints and that a browser page opened to approve it (the link is printed too), wait
+   until it says Connected, then run step 2 again.
+4. `get_video_preview`, and tell them the MP4 is on the video's page, ready to download or
+   publish.
+
+**Anywhere else**, or if they want our servers: `render_version` with `where: "our-server"`, then
+the link. It renders in a minute or two.
+
+If `run-once` fails, say why in one sentence. The render still waits on the video's page, where
+**Render on our server** sends it to us.
 
 ## Deleting
 

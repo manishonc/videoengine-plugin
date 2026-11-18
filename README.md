@@ -110,6 +110,9 @@ On a video's page in AI Video Engine, pick **My computer** before **Render MP4**
 back to the video page, ready to download or publish. The first run downloads the Chrome and
 FFmpeg versions our servers use (about 250 MB), so a video looks the same wherever it renders.
 
+In Claude Code you can also just ask for an MP4: Claude starts the render and runs
+`npx github:manishonc/videoengine-plugin run-once`, which renders it here and exits.
+
 To skip a further browser download that the engine does not use (about 580 MB), put
 `PUPPETEER_SKIP_DOWNLOAD=1 ` before `npx` the first time (macOS and Linux). To disconnect this
 computer, run `npx github:manishonc/videoengine-plugin sign-out`.
