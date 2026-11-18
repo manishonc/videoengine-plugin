@@ -1,0 +1,22 @@
+{
+  "name": "videoengine-plugin",
+  "version": "0.1.0",
+  "description": "AI Video Engine's render engine: renders your videos on this computer. `connect`, then `start`.",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "bin": {
+    "render-engine": "render-engine/cli.mjs"
+  },
+  "files": [
+    "render-engine/",
+    "npm-shrinkwrap.json"
+  ],
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "dependencies": {
+    "@hyperframes/producer": "0.9.58",
+    "@puppeteer/browsers": "3.2.7"
+  }
+}

@@ -91,6 +91,29 @@ to. The skills work with either.
 - "Make a 15-second landscape intro for our product launch in the Launches studio."
 - "In the oat latte video, make the last scene say Try it today."
 
+## Render on your own computer
+
+Videos can render on your own computer instead of our servers. You need Node.js 22.18 or newer,
+on macOS 13 or newer, Linux (x64, with `unzip` and `xz`) or Windows (x64).
+
+```sh
+npx github:manishonc/videoengine-plugin connect
+```
+
+It shows a code and opens a page to approve it. Then leave this running:
+
+```sh
+npx github:manishonc/videoengine-plugin start
+```
+
+On a video's page in AI Video Engine, pick **My computer** before **Render MP4**. The MP4 goes
+back to the video page, ready to download or publish. The first run downloads the Chrome and
+FFmpeg versions our servers use (about 250 MB), so a video looks the same wherever it renders.
+
+To skip a further browser download that the engine does not use (about 580 MB), put
+`PUPPETEER_SKIP_DOWNLOAD=1 ` before `npx` the first time (macOS and Linux). To disconnect this
+computer, run `npx github:manishonc/videoengine-plugin sign-out`.
+
 ## Privacy and support
 
 - Privacy policy: https://video.ariva.cloud/privacy
