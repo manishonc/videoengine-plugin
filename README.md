@@ -91,6 +91,18 @@ to. The skills work with either.
 - "Make a 15-second landscape intro for our product launch in the Launches studio."
 - "In the oat latte video, make the last scene say Try it today."
 
+## Watch renders in Claude Code
+
+When Claude starts an MP4 render in Claude Code, a **Render** pane opens beside the chat. It
+shows whether the video renders on our servers or on this computer, the stage and the progress.
+When the MP4 is done, it plays in Claude Code's browser with video controls. The pane has
+buttons to preview it again, ask for changes, open the video in the web app, cancel, or move a
+waiting render from your computer to our servers. The player link lasts an hour; Preview makes a
+new one.
+
+The player opens in the Claude Code desktop app. In the terminal, use **Open in web app** to watch
+it. On claude.ai there is no pane: Claude gives you the link instead.
+
 ## Render on your own computer
 
 Videos can render on your own computer instead of our servers. You need Node.js 22.18 or newer,
